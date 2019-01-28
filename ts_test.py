@@ -35,6 +35,11 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])
 # plt.show()
 
+tbCallback = keras.callbacks.TensorBoard(log_dir='./Graph',
+                                         histogram_freq=1,
+                                         write_graph=True,
+                                         write_images=True)
+
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28,28)),
     keras.layers.Dense(128, activation=tf.nn.relu),
@@ -46,7 +51,7 @@ model.compile(optimizer='adam',
     metrics=['accuracy']
 )
 
-model.fit(train_images, train_labels, epochs=1)
+model.fit(train_images, train_labels, epochs=1,validation_data=(test_images,test_labels), callbacks=[tbCallback])
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('Test accuracy:', test_acc)
