@@ -42,3 +42,9 @@ with tf.device("CPU:0"):
 
 x = tf.random_uniform([1000,1000])
 print(x)
+
+if tf.test.is_gpu_available():
+  with tf.device("GPU:0"): # Or GPU:1 for the 2nd GPU, GPU:2 for the 3rd etc.
+    x = tf.random_uniform([2000, 2000])
+    assert x.device.endswith("GPU:0")
+    time_matmul(x)
